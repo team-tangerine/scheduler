@@ -1,5 +1,5 @@
 {
-  "firebase": "cow-scheduling-app",
+  "firebase": "scheduler-ae770",
   "public": ".",
   "ignore": [
     "firebase.json",
