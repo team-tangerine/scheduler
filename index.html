@@ -15,7 +15,7 @@
 <body onload="getDateTime()">
 <br>
 
-<div class="ui centered container">
+<div class="ui centered container" style="background-color: rgb(0, 102, 51); color: white;">
   <h1>Scheduler</h1>
 
   <form class="ui form">
@@ -23,13 +23,13 @@
       <div class="one wide column"></div>
       <div class="five wide column">
         <div class="required field">
-          <label>Select a Date</label>
+          <label style="color: white;">Select a Date</label>
           <input id="taskDate" class="datepicker requiredInput" placeholder="Task Date">
         </div>
       </div>
       <div class="four wide column">
         <div class="required field">
-          <label>Select a Time</label>
+          <label style="color: white;">Select a Time</label>
           <input id="taskStart" class="timepicker requiredInput" placeholder="Start Time">
         </div>
       </div>
@@ -38,27 +38,49 @@
         <input id="taskEnd" class="timepicker" placeholder="End Time">
       </div>
     </div>
+
+    <div class="ui grid">
+      <div class="five wide column"></div>
+      <div class="six wide column">
+        <!--
+        <button class="ui fluid button" style="background-color: #024731; color: white;">
+        Confirm Time
+        </button>
+        -->
+      </div>
+    </div>
+
+
   </form>
 </div>
+<br>
 <div class="ui centered container">
   <div class="ui grid">
     <div class="one wide column"></div>
     <div class="four wide column">
       <div class="text"><span style="color: red;">*</span> Indicates a required field.</div>
     </div>
-    <div class="four wide column">
-      <button class="ui fluid button" onclick="processData()">
+
+    <div class="three wide column">
+      <!--<button class="ui fluid button" onclick="writeUserData()" style="background-color: #024731; color: white;"> -->
+
+      <button class="ui fluid button" onclick="processData()" style="background-color: #024731; color: white;">
         Confirm Time
       </button>
     </div>
+
     <div class="four wide column">
-      <button class="ui fluid button" onclick="readUserData()">
+      <button class="ui fluid button" onclick="writeUserData()" style="background-color: #024731; color: white;">
+
+        Submit Data
+      </button>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid button" onclick="readUserData()" style="background-color: #024731; color: white;">
         Display User Data
       </button>
     </div>
   </div>
-</div>
-</div>
 </div>
 
 <div class="ui centered container" style="margin-left: 100%">
