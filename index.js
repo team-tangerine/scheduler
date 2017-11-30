@@ -50,17 +50,17 @@ function confirmRequiredData() {
 }
 
 // function setDisabledTimes(context) {
-//   if (context.select / 60 > 12) {
-//     times2.push(context.select / 60 - 12)
+//   if (context.select/60 > 12) {
+//     times2.push(context.select/60 - 12)
 //   } else {
-//     times2.push(context.select / 60);
+//     times2.push(context.select/60);
 //   }
 // }
-
+//
 // function getDisabledTimes() {
 //   let retDisabled = [];
 //   for (let i = 0; i < times2.length; i++) {
-//     retDisabled.push([times2[i], 0]);
+//     retDisabled.push([times2[i],0]);
 //   }
 //   console.log(retDisabled);
 // }
@@ -103,8 +103,8 @@ function confirmDateTime() {
   let retVal = 0;
   let selectedDate = document.getElementById('eventDate').value;
   let selectedTime = document.getElementById('eventStart').value.split(':')[0];
-  for (let i = 0; i < dateTime.length; i = i + 2) {
-    if ((selectedDate === dateTime[i]) && (parseInt(selectedTime) === dateTime[i + 1])) {
+  for (let i = 0; i < dateTime.length; i = i+2) {
+    if ((selectedDate === dateTime[i]) && (parseInt(selectedTime) === dateTime[i+1])) {
       ++retVal;
     }
   }
@@ -116,48 +116,40 @@ function taskConfirm() {
   if (confirmDateTime() === 0) {
     swal({
       title: 'Confirming Time Availability',
-      onOpen: () = > {
-      swal.showLoading()
-  }, //do this then load the queue instead with the result
-    timer: 1000
-  }).
-    then((result) = > {
-      if(result.dismiss === 'timer'
-  )
-    {
-      swal({
-        title: 'Time is Available!',
-        text: 'Please enter your task information.',
-        type: 'success',
-        confirmButtonText: 'Ok',
-      }).then((result) = > {
-        if(result.value
-    )
-      {
-        collectUserData();
+      onOpen: () => {
+        swal.showLoading()
+      },
+      timer: 1500
+    }).then((result) => {
+      if (result.dismiss === 'timer') {
+        swal({
+          title: 'Time is Available!',
+          text: 'Please enter your task information.',
+          type: 'success',
+          confirmButtonText: 'Ok',
+        }).then((result) => {
+          if (result.value) {
+            collectUserData();
+          }
+        })
       }
     })
-    }
-  })
   } else {
     swal({
       title: 'Confirming Time Availability',
-      onOpen: () = > {
-      swal.showLoading()
-  }, //do this then load the queue instead with the result
-    timer: 3000
-  }).
-    then((result) = > {
-      if(result.dismiss === 'timer'
-  )
-    {
-      swal(
-          'Time is not Available!',
-          'Please choose a different time.',
-          'error'
-      )
-    }
-  })
+      onOpen: () => {
+        swal.showLoading()
+      }, //do this then load the queue instead with the result
+      timer: 1500
+    }).then((result) => {
+      if (result.dismiss === 'timer') {
+        swal(
+            'Time is not Available!',
+            'Please choose a different time.',
+            'error'
+        )
+      }
+    })
   }
 }
 
@@ -176,37 +168,43 @@ function collectUserData() {
       input: 'text'
     },
     {
-      title: 'Task Name 2',
-      text: 'Enter the name of your task'
+      title: 'Task Description',
+      text: 'Enter the description of your task',
+      input: 'textarea'
     },
     {
-      title: 'Task Name 3',
-      text: 'Enter the name of your task'
+      title: 'Task Link',
+      text: 'Enter a link to a website or any social link (if any is available)',
+      input: 'text'
     },
-  ]).then((result) = > {
+  ]).then((result) => {
     swal.resetDefaults()
 
-  if (result.value) {
-    testResult.push(JSON.stringify(result.value));
-    swal({
-      title: 'All done!',
-      html:
-      'Your answers: <pre>' +
-      JSON.stringify(result.value) +
-      '</pre>',
-      confirmButtonText: 'Lovely!'
-    })
-  }
-})
+    if (result.value) {
+      testResult.push(JSON.stringify(result.value));
+      swal({
+        title: 'All done!',
+        html:
+        'Your answers: <pre>' +
+        JSON.stringify(result.value) +
+        '</pre>',
+        confirmButtonText: 'Garenz Bo Barenz!'
+      })
+    }
+  })
 }
 
 function processData() {
   if (confirmRequiredData() === 2) {
     dateTime.push(document.getElementById('eventDate').value);
     dateTime.push(parseInt(document.getElementById('eventStart').value.split(':')[0]))
+    console.log(dateTime);
     taskConfirm();
   } else {
-    console.log('hi2');
-    //do something
+    swal(
+        'An error occured',
+        'Please fill out all required fields!',
+        'error'
+    )
   }
 }
