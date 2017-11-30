@@ -16,9 +16,9 @@ let dateTime = [];
 let testResult = [];
 
 function writeUserData() {
-  if (confirmData() === 6) {
-    client.get('https://ka-leo.firebaseio.com/ka-leo.json?shallow=true', function (response) {
-      firebase.database().ref('ka-leo/' + (Math.floor(response.length / 9) + 1)).set({
+  if (confirmRequiredData() === 2) {
+    client.get('https://scheduler-b7ece.firebaseio.com/scheduler.json?shallow=true', function (response) {
+      firebase.database().ref('scheduler/' + (Math.floor(response.length / 9) + 1)).set({
         date: document.getElementById('taskDate').value,
         timeStart: document.getElementById('taskStart').value,
         timeEnd: document.getElementById('taskEnd').value,
@@ -130,9 +130,7 @@ function taskConfirm() {
 
 function collectUserData() {
   swal.setDefaults({
-    //input: 'text',
     confirmButtonText: 'Next &rarr;',
-    //showCancelButton: true,
     progressSteps: ['1', '2', '3']
   })
 
