@@ -15,6 +15,12 @@ var client = new HttpClient();
 let dateTime = [];
 let userData = [];
 
+/*
+ * Writes data to the firebase backend
+ * @param {string Array} resultValue - Results passed in from the SWAL popup
+ * @return none
+ */
+
 function writeUserData(resultValue) {
   if (confirmRequiredData() === 2) {
     client.get('https://scheduler-b7ece.firebaseio.com/scheduler.json?shallow=true', function (response) {
@@ -41,8 +47,13 @@ function writeUserData(resultValue) {
   }
 }
 
+/*
+ * Reads in all data from the backend and displays then in the application
+ * @param none
+ * @return none
+ */
+
 function readUserData() {
-  let taskNo = 1;
   firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
     for (let i = 1; i <= snapshot.val().length - 1; i++) {
       let taskDateFB = document.createTextNode(snapshot.val()[i].date);
@@ -52,11 +63,16 @@ function readUserData() {
       let timeEndFB = document.createTextNode(snapshot.val()[i].timeEnd);
       let timeStartFB = document.createTextNode(snapshot.val()[i].timeStart);
 
-      createAndAppendDiv(taskNo, taskDateFB, taskDesc, taskLink, taskName, timeEndFB, timeStartFB);
-      ++taskNo;
+      createAndAppendDiv(i, taskDateFB, taskDesc, taskLink, taskName, timeEndFB, timeStartFB);
     }
   })
 }
+
+/*
+ * Grabs dates and times from the backend to make sure there is no overlap in the dates and times from a previous instance
+ * @param none
+ * @return none
+ */
 
 function getDateTime() {
   firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
@@ -66,6 +82,18 @@ function getDateTime() {
     }
   })
 }
+
+/*
+ * Creates the text nodes and appends them to the div to display them
+ * @param {int} taskNo - Task Number
+ * @param {string} taskDisplayDate - Date of the indexed task
+ * @param {string} taskDesc - Description of the indexed task
+ * @param {string} taskLink - Link of the indexed task
+ * @param {string} taskName - Name of the indexed task
+ * @param {string} taskDisplayEnd - End time of the indexed task
+ * @param {string} taskDisplayStart - Start time of the indexed task
+ * @return none
+ */
 
 function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskName, taskDisplayEnd, taskDisplayStart) {
   let div = document.getElementById('showData');
@@ -92,6 +120,12 @@ function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskNam
   div.appendChild(document.createElement('br'));
 }
 
+/*
+ * Confirms that the required fields are not blank
+ * @param none
+ * @return {int} retVal - Number of required fields left blank
+ */
+
 function confirmRequiredData() {
   let req = document.getElementsByClassName('requiredInput');
   let retVal = 0;
@@ -102,6 +136,12 @@ function confirmRequiredData() {
   }
   return retVal;
 }
+
+/*
+ * Checks if there are overlapping times of dates and requested times
+ * @param none
+ * @return {int} retVal - Number of overlapping times
+ */
 
 function confirmDateTime() {
   let retVal = 0;
@@ -114,6 +154,12 @@ function confirmDateTime() {
   }
   return retVal - 1;
 }
+
+/*
+ * Confirms time availability of requested time
+ * @param none
+ * @return none
+ */
 
 function taskConfirm() {
   if (confirmDateTime() === 0) {
@@ -156,6 +202,12 @@ function taskConfirm() {
   }
 }
 
+/*
+ * Collects user input using sweetalert
+ * @param none
+ * @return none
+ */
+
 function collectUserData() {
   swal.setDefaults({
     confirmButtonText: 'Next &rarr;',
@@ -197,6 +249,12 @@ function collectUserData() {
     }
   })
 }
+
+/*
+ * Processing the required fields or fails if required fields are not filled
+ * @param none
+ * @return none
+ */
 
 function processData() {
   if (confirmRequiredData() === 2) {
