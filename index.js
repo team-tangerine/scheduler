@@ -12,9 +12,6 @@ var HttpClient = function () {
 
 var client = new HttpClient();
 
-let times = [];
-let times2 = [];
-let dates = [];
 let dateTime = [];
 let testResult = [];
 
@@ -22,14 +19,9 @@ function writeUserData() {
   if (confirmData() === 6) {
     client.get('https://ka-leo.firebaseio.com/ka-leo.json?shallow=true', function (response) {
       firebase.database().ref('ka-leo/' + (Math.floor(response.length / 9) + 1)).set({
-        name: document.getElementById('eventName').value,
-        location: document.getElementById('eventLocation').value,
-        date: document.getElementById('eventDate').value,
-        social: document.getElementById('eventSocial').value,
-        website: document.getElementById('eventWebsite').value,
-        desc: document.getElementById('eventDescription').value,
-        timeStart: document.getElementById('eventStart').value,
-        timeEnd: document.getElementById('eventEnd').value,
+        date: document.getElementById('taskDate').value,
+        timeStart: document.getElementById('taskStart').value,
+        timeEnd: document.getElementById('taskEnd').value,
       });
     });
     alert('Event added to the database!')
@@ -49,33 +41,17 @@ function confirmRequiredData() {
   return retVal;
 }
 
-// function setDisabledTimes(context) {
-//   if (context.select/60 > 12) {
-//     times2.push(context.select/60 - 12)
-//   } else {
-//     times2.push(context.select/60);
-//   }
-// }
-//
-// function getDisabledTimes() {
-//   let retDisabled = [];
-//   for (let i = 0; i < times2.length; i++) {
-//     retDisabled.push([times2[i],0]);
-//   }
-//   console.log(retDisabled);
-// }
-
 function test() {
-  console.log(document.getElementById('eventDate').value);
-  console.log(document.getElementById('eventStart').value);
-  console.log(document.getElementById('eventEnd').value);
+  console.log(document.getElementById('taskDate').value);
+  console.log(document.getElementById('taskStart').value);
+  console.log(document.getElementById('taskEnd').value);
 
-  let date = document.getElementById('eventDate').value;
-  let sTime = document.getElementById('eventStart').value.split('');
-  let eTime = document.getElementById('eventEnd').value.split('');
+  let date = document.getElementById('taskDate').value;
+  let sTime = document.getElementById('taskStart').value.split('');
+  let eTime = document.getElementById('taskEnd').value.split('');
 
-  let sTime2 = document.getElementById('eventStart').value.split(':');
-  let sTime3 = document.getElementById('eventStart').value.split(" ");
+  let sTime2 = document.getElementById('taskStart').value.split(':');
+  let sTime3 = document.getElementById('taskStart').value.split(" ");
 
   console.log(date);
   console.log(parseInt(sTime2[0]));
@@ -90,7 +66,6 @@ function test() {
   if ((sTime[sTime.length - 2] && eTime[eTime.length - 2]) === 'A') {
     let totalTime = 0;
   }
-
   console.log(testResult);
 }
 
@@ -101,8 +76,8 @@ function test2() {
 
 function confirmDateTime() {
   let retVal = 0;
-  let selectedDate = document.getElementById('eventDate').value;
-  let selectedTime = document.getElementById('eventStart').value.split(':')[0];
+  let selectedDate = document.getElementById('taskDate').value;
+  let selectedTime = document.getElementById('taskStart').value.split(':')[0];
   for (let i = 0; i < dateTime.length; i = i+2) {
     if ((selectedDate === dateTime[i]) && (parseInt(selectedTime) === dateTime[i+1])) {
       ++retVal;
@@ -196,8 +171,8 @@ function collectUserData() {
 
 function processData() {
   if (confirmRequiredData() === 2) {
-    dateTime.push(document.getElementById('eventDate').value);
-    dateTime.push(parseInt(document.getElementById('eventStart').value.split(':')[0]))
+    dateTime.push(document.getElementById('taskDate').value);
+    dateTime.push(parseInt(document.getElementById('taskStart').value.split(':')[0]))
     console.log(dateTime);
     taskConfirm();
   } else {

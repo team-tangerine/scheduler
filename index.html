@@ -11,9 +11,6 @@
   <link rel="stylesheet" type="text/css" href="lib/sweetalert2/src/sweetalert2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-  <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
 </head>
 <body>
 <br>
@@ -27,13 +24,13 @@
       <div class="five wide column">
         <div class="required field">
           <label>Select a Date</label>
-          <input id="eventDate" class="datepicker requiredInput" placeholder="Event Date">
+          <input id="taskDate" class="datepicker requiredInput" placeholder="Task Date">
         </div>
       </div>
       <div class="four wide column">
         <div class="required field">
           <label>Select a Time</label>
-          <input id="eventStart" class="timepicker requiredInput" placeholder="Start Time">
+          <input id="taskStart" class="timepicker requiredInput" placeholder="Start Time">
         </div>
       </div>
       <div class="four wide column">
@@ -49,12 +46,6 @@
         </button>
       </div>
     </div>
-    <!--<div class="ui grid">-->
-      <!--<div class="eight wide column">-->
-        <!--<label>Event Description</label>-->
-        <!--<textarea id="eventDescription" rows="6"></textarea>-->
-      <!--</div>-->
-    <!--</div>-->
   </form>
 </div>
 <div class="ui centered container">
@@ -120,15 +111,6 @@
     min: [9, 0],
     max: [20, 0],
     interval: 60,
-    //disable: getDisabledTimes(),
-//    onSet: function (context) {
-//      setDisabledTimes(context);
-//      console.log('Just set stuff:', context);
-//      /*
-//      ON SET TO SET THROW IN A TIME SELECTRED
-//      ON OPEN TO CHECK THE AVAILABLE TIMES OR RESET THE MIN AND MAXES
-//       */
-//    },
   })
 </script>
 
