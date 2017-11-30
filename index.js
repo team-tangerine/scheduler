@@ -48,7 +48,11 @@ function confirmData() {
 }
 
 function setDisabledTimes(context) {
-  times2.push(context.select/60);
+  if (context.select/60 > 12) {
+    times2.push(context.select/60 - 12)
+  } else {
+    times2.push(context.select/60);
+  }
 }
 
 function getDisabledTimes() {
@@ -98,6 +102,8 @@ function pushTime(context) {
 function confirmTime() {
   let retVal = 0;
   let selectedTime = document.getElementById('eventStart').value.split(':');
+  console.log(selectedTime);
+  console.log(parseInt(selectedTime[0]));
   for (let i = 0; i < times2.length; i++) {
     if (parseInt(selectedTime[0]) === times2[i]) {
       retVal++;
@@ -113,7 +119,7 @@ function taskConfirm() {
       onOpen: () => {
         swal.showLoading()
       }, //do this then load the queue instead with the result
-      timer: 3000
+      timer: 1000
     }).then((result) => {
       if (result.dismiss === 'timer') {
         swal({
