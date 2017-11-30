@@ -13,12 +13,12 @@ var HttpClient = function () {
 var client = new HttpClient();
 
 let dateTime = [];
-let testResult = [];
+let userData = [];
 
 function writeUserData() {
-  if (confirmData() === 6) {
-    client.get('https://ka-leo.firebaseio.com/ka-leo.json?shallow=true', function (response) {
-      firebase.database().ref('ka-leo/' + (Math.floor(response.length / 9) + 1)).set({
+  if (confirmRequiredData() === 2) {
+    client.get('https://scheduler-b7ece.firebaseio.com/scheduler.json?shallow=true', function (response) {
+      firebase.database().ref('scheduler/' + (Math.floor(response.length / 9) + 1)).set({
         date: document.getElementById('taskDate').value,
         timeStart: document.getElementById('taskStart').value,
         timeEnd: document.getElementById('taskEnd').value,
@@ -30,6 +30,24 @@ function writeUserData() {
   }
 }
 
+function readUserData() {
+  firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
+    for (let i = 1; i <= snapshot.val().length - 1; i++) {
+      let name = document.createTextNode(snapshot.val()[i].name);
+      let location = document.createTextNode(snapshot.val()[i].location);
+      let date = document.createTextNode(snapshot.val()[i].date);
+      let social = document.createTextNode(snapshot.val()[i].social);
+      let website = document.createTextNode(snapshot.val()[i].website);
+      let desc = document.createTextNode(snapshot.val()[i].desc);
+      let timeStart = document.createTextNode(snapshot.val()[i].timeStart);
+      let timeEnd = document.createTextNode(snapshot.val()[i].timeEnd);
+      createDiv(name, location, date, social, website, desc, timeStart, timeEnd);
+      appendItems(name, location, date, social, website, desc, timeStart, timeEnd);
+      storeData(name, location, date, social, website, desc, timeStart, timeEnd);
+    }
+  })
+}
+
 function confirmRequiredData() {
   let req = document.getElementsByClassName('requiredInput');
   let retVal = 0;
@@ -39,39 +57,6 @@ function confirmRequiredData() {
     }
   }
   return retVal;
-}
-
-function test() {
-  console.log(document.getElementById('taskDate').value);
-  console.log(document.getElementById('taskStart').value);
-  console.log(document.getElementById('taskEnd').value);
-
-  let date = document.getElementById('taskDate').value;
-  let sTime = document.getElementById('taskStart').value.split('');
-  let eTime = document.getElementById('taskEnd').value.split('');
-
-  let sTime2 = document.getElementById('taskStart').value.split(':');
-  let sTime3 = document.getElementById('taskStart').value.split(" ");
-
-  console.log(date);
-  console.log(parseInt(sTime2[0]));
-  console.log(sTime3);
-  console.log(parseInt(sTime3[0].split(':')[1]));
-
-  console.log(sTime);
-  console.log(eTime);
-  console.log(sTime[sTime.length - 2]);
-  console.log(eTime[eTime.length - 2]);
-
-  if ((sTime[sTime.length - 2] && eTime[eTime.length - 2]) === 'A') {
-    let totalTime = 0;
-  }
-  console.log(testResult);
-}
-
-function test2() {
-  console.log(times2);
-  console.log(times2[0]);
 }
 
 function confirmDateTime() {
@@ -130,9 +115,7 @@ function taskConfirm() {
 
 function collectUserData() {
   swal.setDefaults({
-    //input: 'text',
     confirmButtonText: 'Next &rarr;',
-    //showCancelButton: true,
     progressSteps: ['1', '2', '3']
   })
 
@@ -156,24 +139,31 @@ function collectUserData() {
     swal.resetDefaults()
 
     if (result.value) {
-      testResult.push(JSON.stringify(result.value));
+      userData.push(result.value);
       swal({
         title: 'All done!',
-        html:
-        'Your answers: <pre>' +
-        JSON.stringify(result.value) +
-        '</pre>',
+        // html:
+        // 'Your answers: <pre>' +
+        // JSON.stringify(result.value) +
+        // '</pre>',
         confirmButtonText: 'Garenz Bo Barenz!'
       })
     }
   })
+
+  console.log(userData);
+}
+
+function test() {
+  console.log(userData);
+  console.log(userData[0]);
+  console.log(userData[0][0]);
 }
 
 function processData() {
   if (confirmRequiredData() === 2) {
     dateTime.push(document.getElementById('taskDate').value);
     dateTime.push(parseInt(document.getElementById('taskStart').value.split(':')[0]))
-    console.log(dateTime);
     taskConfirm();
   } else {
     swal(

@@ -35,15 +35,7 @@
       </div>
       <div class="four wide column">
         <label>Select an End Time</label>
-        <input id="eventEnd" class="timepicker" placeholder="End Time">
-      </div>
-    </div>
-    <div class="ui grid">
-      <div class="five wide column"></div>
-      <div class="six wide column">
-        <button class="ui fluid button">
-        Confirm Time
-        </button>
+        <input id="taskEnd" class="timepicker" placeholder="End Time">
       </div>
     </div>
   </form>
@@ -52,6 +44,11 @@
   <div class="ui grid">
     <div class="four wide column">
       <div class="text"><span style="color: red;">*</span> Indicates a required field.</div>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid button" onclick="processData()">
+        Confirm Time
+      </button>
     </div>
     <div class="four wide column">
       <button class="ui fluid button" onclick="writeUserData()">
@@ -63,35 +60,25 @@
         Display User Data
       </button>
     </div>
-    <div class="four wide column"></div>
   </div>
 </div>
 </div>
 </div>
+
+<!--<button class="ui button" onclick="test()"></button>-->
 <br>
-
-<button class="ui fluid button" onclick="test()">
-  test
-</button>
-<button class="ui fluid button" onclick="test2()">
-  test2
-</button>
-<button class="ui fluid button" onclick="processData()">
-  Confirm Time
-</button>
-
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyBtWT33Efe65RjvWSaz8akRB17f8R4BS4Q",
-    authDomain: "ka-leo.firebaseapp.com",
-    databaseURL: "https://ka-leo.firebaseio.com",
-    projectId: "ka-leo",
-    storageBucket: "ka-leo.appspot.com",
-    messagingSenderId: "332977316492"
+    apiKey: "AIzaSyD_FT2oRJ73zjJD68nw3plgYfdFNCtxZjM",
+    authDomain: "scheduler-b7ece.firebaseapp.com",
+    databaseURL: "https://scheduler-b7ece.firebaseio.com",
+    projectId: "scheduler-b7ece",
+    storageBucket: "scheduler-b7ece.appspot.com",
+    messagingSenderId: "790657955291"
   };
   firebase.initializeApp(config);
 </script>
