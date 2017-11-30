@@ -1,47 +1,161 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Scheduler</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Scheduler</title>
+  <!--Initialize stylesheet link and semantic link-->
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="lib/themes/classic.css">
+  <link rel="stylesheet" type="text/css" href="lib/themes/classic.date.css">
+  <link rel="stylesheet" type="text/css" href="lib/themes/classic.time.css">
+  <link rel="stylesheet" type="text/css" href="lib/sweetalert2/src/sweetalert2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style.css">
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+</head>
+<body>
+<br>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-        <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
-        <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
-        <script src="app.js"></script>
-    </head>
+<div class="ui centered container">
+  <h1>Scheduler</h1>
 
-    <body>
-        <div class="container" ng-app="scheduleApp" ng-controller="mainController">
+  <form class="ui form">
+    <div class="ui grid">
+      <div class="one wide column"></div>
+      <div class="five wide column">
+        <div class="required field">
+          <label>Select a Date</label>
+          <input id="eventDate" class="datepicker requiredInput" placeholder="Event Date">
+        </div>
+      </div>
+      <div class="four wide column">
+        <div class="required field">
+          <label>Select a Time</label>
+          <input id="eventStart" class="timepicker requiredInput" placeholder="Start Time">
+        </div>
+      </div>
+      <div class="four wide column">
+        <label>Select an End Time</label>
+        <input id="eventEnd" class="timepicker" placeholder="End Time">
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="five wide column"></div>
+      <div class="six wide column">
+        <button class="ui fluid button">
+          Confirm Time
+        </button>
+      </div>
+    </div>
+    <!--<div class="ui grid">-->
+    <!--<div class="four wide column">-->
+    <!--<div class="required field">-->
+    <!--<label>Task Name</label>-->
+    <!--<input class="requiredInput" id="eventName" type="text" placeholder="Event Name" name="eventName">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="four wide column">-->
+    <!--<div class="required field">-->
+    <!--<label>Event Location</label>-->
+    <!--<input class="requiredInput" id="eventLocation" type="text" placeholder="Event Location">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="four wide column">-->
+    <!--<div class="required field">-->
+    <!--<label>Social Link (i.e Facebook)</label>-->
+    <!--<input class="requiredInput" id="eventSocial" type="text" placeholder="Social Link">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="four wide column">-->
+    <!--<div class="required field">-->
+    <!--<label>Event Name</label>-->
+    <!--<input class="requiredInput" id="eventWebsite" type="text" placeholder="Website Link">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="ui grid">
+      <div class="eight wide column">
+        <label>Event Description</label>
+        <textarea id="eventDescription" rows="6"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="ui centered container">
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="text"><span style="color: red;">*</span> Indicates a required field.</div>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid button" onclick="writeUserData()">
+        Submit Data
+      </button>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid button" onclick="readUserData()">
+        Display User Data
+      </button>
+    </div>
+    <div class="four wide column"></div>
+  </div>
+</div>
+</div>
+</div>
+<br>
 
-            <div class="page-header text-center">
-                <h1>Scheduler</h1>
-            </div>
+<button class="ui fluid button" onclick="test()">
+  test
+</button>
+<button class="ui fluid button" onclick="test2()">
+  test2
+</button>
+<button class="ui fluid button" onclick="taskConfirm()">
+  Confirm Time
+</button>
 
-            <div class="row times">
-                <div class="col-xs-4 text-center" ng-repeat="day in days">
+</body>
 
-                    <h2>{{ day.name }}</h2>
-                    <div class="time-slot" ng-repeat="slot in day.slots">
+<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBtWT33Efe65RjvWSaz8akRB17f8R4BS4Q",
+    authDomain: "ka-leo.firebaseapp.com",
+    databaseURL: "https://ka-leo.firebaseio.com",
+    projectId: "ka-leo",
+    storageBucket: "ka-leo.appspot.com",
+    messagingSenderId: "332977316492"
+  };
+  firebase.initializeApp(config);
+</script>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="lib/picker.js"></script>
+<script type="text/javascript" src="lib/picker.date.js"></script>
+<script type="text/javascript" src="lib/picker.time.js"></script>
+<script type="text/javascript" src="lib/sweetalert2/src/sweetalert2.js"></script>
+<script>
+  $('.datepicker').pickadate({
+    format: 'dddd, mm/dd/yyyy',
+    hiddenName: true,
+  })
 
-                        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+  $('.timepicker').pickatime({
+    format: 'h:i A',
+    min: [9, 0],
+    max: [20, 0],
+    interval: 60,
+    disable: getDisabledTimes(),
+    onSet: function (context) {
+      setDisabledTimes(context);
+      console.log('Just set stuff:', context);
+      /*
+      ON SET TO SET THROW IN A TIME SELECTRED
+      ON OPEN TO CHECK THE AVAILABLE TIMES OR RESET THE MIN AND MAXES
+       */
+    },
+  })
+</script>
 
-                        <label for="{{ day.name }}-{{ $index }}">{{ slot.time }}<br>
-                            <span ng-if="slot.booked">Booked</span>
-                            <span ng-if="!slot.booked">Available</span>
-                        </label>
-                    </div>
-
-                </div>
-            </div>
-
-            <p class="text-center">
-                <a href="#" class="btn btn-primary" ng-click="reset()">Reset</a>
-            </p>
-
-        </div>        
-    </body>
 </html>
