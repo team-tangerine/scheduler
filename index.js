@@ -14,6 +14,8 @@ var client = new HttpClient();
 
 let times = [];
 let times2 = [];
+let dates = [];
+let dateTime = [];
 let testResult = [];
 
 function writeUserData() {
@@ -36,7 +38,7 @@ function writeUserData() {
   }
 }
 
-function confirmData() {
+function confirmRequiredData() {
   let req = document.getElementsByClassName('requiredInput');
   let retVal = 0;
   for (let i = 0; i < req.length; ++i) {
@@ -47,33 +49,35 @@ function confirmData() {
   return retVal;
 }
 
-function setDisabledTimes(context) {
-  if (context.select/60 > 12) {
-    times2.push(context.select/60 - 12)
-  } else {
-    times2.push(context.select/60);
-  }
-}
+// function setDisabledTimes(context) {
+//   if (context.select / 60 > 12) {
+//     times2.push(context.select / 60 - 12)
+//   } else {
+//     times2.push(context.select / 60);
+//   }
+// }
 
-function getDisabledTimes() {
-  let retDisabled = [];
-  for (let i = 0; i < times2.length; i++) {
-    retDisabled.push([times2[i],0]);
-  }
-  console.log(retDisabled);
-}
+// function getDisabledTimes() {
+//   let retDisabled = [];
+//   for (let i = 0; i < times2.length; i++) {
+//     retDisabled.push([times2[i], 0]);
+//   }
+//   console.log(retDisabled);
+// }
 
 function test() {
   console.log(document.getElementById('eventDate').value);
   console.log(document.getElementById('eventStart').value);
   console.log(document.getElementById('eventEnd').value);
 
+  let date = document.getElementById('eventDate').value;
   let sTime = document.getElementById('eventStart').value.split('');
   let eTime = document.getElementById('eventEnd').value.split('');
 
   let sTime2 = document.getElementById('eventStart').value.split(':');
   let sTime3 = document.getElementById('eventStart').value.split(" ");
 
+  console.log(date);
   console.log(parseInt(sTime2[0]));
   console.log(sTime3);
   console.log(parseInt(sTime3[0].split(':')[1]));
@@ -95,61 +99,65 @@ function test2() {
   console.log(times2[0]);
 }
 
-function pushTime(context) {
-  times.push(context);
-}
-
-function confirmTime() {
+function confirmDateTime() {
   let retVal = 0;
-  let selectedTime = document.getElementById('eventStart').value.split(':');
-  console.log(selectedTime);
-  console.log(parseInt(selectedTime[0]));
-  for (let i = 0; i < times2.length; i++) {
-    if (parseInt(selectedTime[0]) === times2[i]) {
-      retVal++;
+  let selectedDate = document.getElementById('eventDate').value;
+  let selectedTime = document.getElementById('eventStart').value.split(':')[0];
+  for (let i = 0; i < dateTime.length; i = i + 2) {
+    if ((selectedDate === dateTime[i]) && (parseInt(selectedTime) === dateTime[i + 1])) {
+      ++retVal;
     }
   }
+  console.log(retVal);
   return retVal - 1;
 }
 
 function taskConfirm() {
-  if (confirmTime() === 0) {
+  if (confirmDateTime() === 0) {
     swal({
       title: 'Confirming Time Availability',
-      onOpen: () => {
-        swal.showLoading()
-      }, //do this then load the queue instead with the result
-      timer: 1000
-    }).then((result) => {
-      if (result.dismiss === 'timer') {
-        swal({
-          title: 'Time is Available!',
-          text: 'Please enter your task information.',
-          type: 'success',
-          confirmButtonText: 'Ok',
-        }).then((result) => {
-          if (result.value) {
-            collectUserData();
-          }
-        })
+      onOpen: () = > {
+      swal.showLoading()
+  }, //do this then load the queue instead with the result
+    timer: 1000
+  }).
+    then((result) = > {
+      if(result.dismiss === 'timer'
+  )
+    {
+      swal({
+        title: 'Time is Available!',
+        text: 'Please enter your task information.',
+        type: 'success',
+        confirmButtonText: 'Ok',
+      }).then((result) = > {
+        if(result.value
+    )
+      {
+        collectUserData();
       }
     })
+    }
+  })
   } else {
     swal({
       title: 'Confirming Time Availability',
-      onOpen: () => {
-        swal.showLoading()
-      }, //do this then load the queue instead with the result
-      timer: 3000
-    }).then((result) => {
-      if (result.dismiss === 'timer') {
-        swal(
-            'Time is not Available!',
-            'Please choose a different time.',
-            'error'
-        )
-      }
-    })
+      onOpen: () = > {
+      swal.showLoading()
+  }, //do this then load the queue instead with the result
+    timer: 3000
+  }).
+    then((result) = > {
+      if(result.dismiss === 'timer'
+  )
+    {
+      swal(
+          'Time is not Available!',
+          'Please choose a different time.',
+          'error'
+      )
+    }
+  })
   }
 }
 
@@ -175,19 +183,30 @@ function collectUserData() {
       title: 'Task Name 3',
       text: 'Enter the name of your task'
     },
-  ]).then((result) => {
+  ]).then((result) = > {
     swal.resetDefaults()
 
-    if (result.value) {
-      testResult.push(JSON.stringify(result.value));
-      swal({
-        title: 'All done!',
-        html:
-        'Your answers: <pre>' +
-        JSON.stringify(result.value) +
-        '</pre>',
-        confirmButtonText: 'Lovely!'
-      })
-    }
-  })
+  if (result.value) {
+    testResult.push(JSON.stringify(result.value));
+    swal({
+      title: 'All done!',
+      html:
+      'Your answers: <pre>' +
+      JSON.stringify(result.value) +
+      '</pre>',
+      confirmButtonText: 'Lovely!'
+    })
+  }
+})
+}
+
+function processData() {
+  if (confirmRequiredData() === 2) {
+    dateTime.push(document.getElementById('eventDate').value);
+    dateTime.push(parseInt(document.getElementById('eventStart').value.split(':')[0]))
+    taskConfirm();
+  } else {
+    console.log('hi2');
+    //do something
+  }
 }

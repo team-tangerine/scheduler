@@ -45,42 +45,16 @@
       <div class="five wide column"></div>
       <div class="six wide column">
         <button class="ui fluid button">
-          Confirm Time
+        Confirm Time
         </button>
       </div>
     </div>
     <!--<div class="ui grid">-->
-    <!--<div class="four wide column">-->
-    <!--<div class="required field">-->
-    <!--<label>Task Name</label>-->
-    <!--<input class="requiredInput" id="eventName" type="text" placeholder="Event Name" name="eventName">-->
+      <!--<div class="eight wide column">-->
+        <!--<label>Event Description</label>-->
+        <!--<textarea id="eventDescription" rows="6"></textarea>-->
+      <!--</div>-->
     <!--</div>-->
-    <!--</div>-->
-    <!--<div class="four wide column">-->
-    <!--<div class="required field">-->
-    <!--<label>Event Location</label>-->
-    <!--<input class="requiredInput" id="eventLocation" type="text" placeholder="Event Location">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="four wide column">-->
-    <!--<div class="required field">-->
-    <!--<label>Social Link (i.e Facebook)</label>-->
-    <!--<input class="requiredInput" id="eventSocial" type="text" placeholder="Social Link">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="four wide column">-->
-    <!--<div class="required field">-->
-    <!--<label>Event Name</label>-->
-    <!--<input class="requiredInput" id="eventWebsite" type="text" placeholder="Website Link">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <div class="ui grid">
-      <div class="eight wide column">
-        <label>Event Description</label>
-        <textarea id="eventDescription" rows="6"></textarea>
-      </div>
-    </div>
   </form>
 </div>
 <div class="ui centered container">
@@ -111,7 +85,7 @@
 <button class="ui fluid button" onclick="test2()">
   test2
 </button>
-<button class="ui fluid button" onclick="taskConfirm()">
+<button class="ui fluid button" onclick="processData()">
   Confirm Time
 </button>
 
@@ -137,7 +111,7 @@
 <script type="text/javascript" src="lib/sweetalert2/src/sweetalert2.js"></script>
 <script>
   $('.datepicker').pickadate({
-    format: 'dddd, mm/dd/yyyy',
+    format: 'mm/dd/yyyy',
     hiddenName: true,
   })
 
@@ -147,14 +121,14 @@
     max: [20, 0],
     interval: 60,
     disable: getDisabledTimes(),
-    onSet: function (context) {
-      setDisabledTimes(context);
-      console.log('Just set stuff:', context);
-      /*
-      ON SET TO SET THROW IN A TIME SELECTRED
-      ON OPEN TO CHECK THE AVAILABLE TIMES OR RESET THE MIN AND MAXES
-       */
-    },
+//    onSet: function (context) {
+//      setDisabledTimes(context);
+//      console.log('Just set stuff:', context);
+//      /*
+//      ON SET TO SET THROW IN A TIME SELECTRED
+//      ON OPEN TO CHECK THE AVAILABLE TIMES OR RESET THE MIN AND MAXES
+//       */
+//    },
   })
 </script>
 
