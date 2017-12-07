@@ -37,11 +37,20 @@
         <label>Select an End Time</label>
         <input id="taskEnd" class="timepicker" placeholder="End Time">
       </div>
+
+      <div class="four wide column">
+      <label>Task Dependency</label>
+      <select id="selecty">
+       </select>
+   </div>
+
     </div>
+ 
 
     <div class="ui grid">
       <div class="five wide column"></div>
       <div class="six wide column">
+
         <!--
         <button class="ui fluid button" style="background-color: #024731; color: white;">
         Confirm Time
@@ -52,6 +61,8 @@
 
 
   </form>
+
+
 </div>
 <br>
 <div class="ui centered container">
@@ -109,6 +120,7 @@
 <script type="text/javascript" src="lib/picker.time.js"></script>
 <script type="text/javascript" src="lib/sweetalert2/src/sweetalert2.js"></script>
 <script>
+  
   $('.datepicker').pickadate({
     format: 'mm/dd/yyyy',
     hiddenName: true,
@@ -120,6 +132,7 @@
     max: [20, 0],
     interval: 60,
   })
+
 </script>
 
 </html>

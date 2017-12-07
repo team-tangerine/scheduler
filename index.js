@@ -81,7 +81,18 @@ function getDateTime() {
       dateTime.push(parseInt(snapshot.val()[i].timeStart.split(':')[0]));
     }
   })
+
+    let sel = document.getElementById('selecty');
+    firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
+    for (let i = 1; i <= snapshot.val().length - 1; i++) {
+      sel.add(String(snapshot.val()[i].taskName));
+      // sel.options[sel.options.length] = new Option(taskName, taskName);
+      console.log(taskName);
+    }
+  })
 }
+
+
 
 /*
  * Creates the text nodes and appends them to the div to display them
@@ -154,6 +165,7 @@ function confirmDateTime() {
   }
   return retVal - 1;
 }
+
 
 /*
  * Confirms time availability of requested time
