@@ -55,6 +55,17 @@ function writeUserData(resultValue) {
 
 function readUserData() {
   firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
+
+    let calculation = snapshot.val().length - 1;
+    let devDays = getDevDays();
+    
+    let div = document.getElementById('showPaths');
+    div.append('CRITICAL PATHS CALCULATION: YOU HAVE ' + calculation + ' TASK REMAINING.');
+    div.appendChild(document.createElement('br'));
+    div.append('You have ' + devDays + ' developer days remaining...');
+    div.appendChild(document.createElement('br'));
+      
+
     for (let i = 1; i <= snapshot.val().length - 1; i++) {
       let taskDateFB = document.createTextNode(snapshot.val()[i].date);
       let taskDesc = document.createTextNode(snapshot.val()[i].taskDesc);
@@ -66,6 +77,23 @@ function readUserData() {
       createAndAppendDiv(i, taskDateFB, taskDesc, taskLink, taskName, timeEndFB, timeStartFB);
     }
   })
+}
+
+/*
+ * Calculates the days before the year ends (does not include Holidays)
+ * @param none
+ * @return none
+ */
+function getDevDays(){
+    let today=new Date();
+    let cmas=new Date(today.getFullYear(), 12, 31);
+    if (today.getMonth()==11 && today.getDate()>25) 
+    {
+      cmas.setFullYear(cmas.getFullYear()+1); 
+    }  
+    let one_day=1000*60*60*24;
+    let result = Math.ceil((cmas.getTime()-today.getTime())/(one_day));
+    return result;
 }
 
 /*

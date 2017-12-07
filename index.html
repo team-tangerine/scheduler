@@ -81,12 +81,16 @@
       </button>
     </div>
     <div class="four wide column">
-      <button class="ui fluid button" onclick="readUserData()" style="background-color: #024731; color: white;">
+      <button class="ui fluid button" id="display" onclick="readUserData(); disable();" style="background-color: #024731; color: white;">
         Display User Data
       </button>
     </div>
   </div>
 </div>
+
+<h1 class="ui header">
+<div id="showPaths"></div>
+</h1>
 
 <div class="ui centered container" style="margin-left: 100%">
 <div id="showData"></div>
@@ -114,6 +118,10 @@
 <script type="text/javascript" src="lib/picker.time.js"></script>
 <script type="text/javascript" src="lib/sweetalert2/src/sweetalert2.js"></script>
 <script>
+
+function disable(){
+  document.getElementById('display').setAttribute("disabled", "disabled"); 
+}
   
   $('.datepicker').pickadate({
     format: 'mm/dd/yyyy',
