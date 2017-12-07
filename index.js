@@ -85,9 +85,11 @@ function getDateTime() {
     let sel = document.getElementById('selecty');
     firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
     for (let i = 1; i <= snapshot.val().length - 1; i++) {
-      sel.add(String(snapshot.val()[i].taskName));
+      let text = snapshot.val()[i].taskName;
+      let option = text.toString();
+      sel.add(option);
       // sel.options[sel.options.length] = new Option(taskName, taskName);
-      console.log(taskName);
+      console.log(option);
     }
   })
 }
