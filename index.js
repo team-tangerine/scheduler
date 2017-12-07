@@ -85,15 +85,24 @@ function getDateTime() {
     let sel = document.getElementById('selecty');
     firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
     for (let i = 1; i <= snapshot.val().length - 1; i++) {
-      let text = snapshot.val()[i].taskName;
-      let option = text.toString();
-      sel.add(option);
-      // sel.options[sel.options.length] = new Option(taskName, taskName);
-      console.log(option);
+     
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.innerHTML = snapshot.val()[i].taskName;
+      sel.appendChild(opt);
     }
   })
 }
 
+function objToString (obj) {
+    var str = '';
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str += p + '::' + obj[p] + '\n';
+        }
+    }
+    return str;
+}
 
 
 /*
