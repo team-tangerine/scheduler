@@ -58,7 +58,7 @@ function readUserData() {
 
     let calculation = snapshot.val().length - 1;
     let devDays = getDevDays();
-    
+
     let div = document.getElementById('showPaths');
     div.append('CRITICAL PATHS CALCULATION: YOU HAVE ' + calculation + ' TASK REMAINING.');
     div.appendChild(document.createElement('br'));
@@ -80,10 +80,12 @@ function readUserData() {
 }
 
 /*
- * Calculates the days before the year ends (does not include Holidays)
+ * Calculates the days before the year ends to help developers figure out how many days they have left to complete their tasks (does not include Holidays)
+ * Future operations include reading the end date from a config file since different development companies have different end dates.
  * @param none
  * @return none
  */
+ 
 function getDevDays(){
     let today=new Date();
     let cmas=new Date(today.getFullYear(), 12, 31);
