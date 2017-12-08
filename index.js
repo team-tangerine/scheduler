@@ -85,15 +85,15 @@ function readUserData() {
  * @param none
  * @return none
  */
- 
+
 function getDevDays(){
-    let today=new Date();
-    let cmas=new Date(today.getFullYear(), 12, 31);
-    if (today.getMonth()==11 && today.getDate()>25) 
+    let today = new Date();
+    let cmas = new Date(today.getFullYear(), 12, 31);
+    if (today.getMonth()==11 && today.getDate() > 25) 
     {
       cmas.setFullYear(cmas.getFullYear()+1); 
     }  
-    let one_day=1000*60*60*24;
+    let one_day = 1000 * 60 * 60 * 24;
     let result = Math.ceil((cmas.getTime()-today.getTime())/(one_day));
     return result;
 }
@@ -124,14 +124,12 @@ function getDateTime() {
   })
 }
 
-function objToString (obj) {
-    var str = '';
-    for (var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-            str += p + '::' + obj[p] + '\n';
-        }
-    }
-    return str;
+
+function getTotalTasks() {
+  firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
+    let calculation = snapshot.val().length - 1;
+    return calculation;
+  })
 }
 
 
@@ -148,6 +146,10 @@ function objToString (obj) {
  */
 
 function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskName, taskDisplayEnd, taskDisplayStart) {
+ firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
+  let total = snapshot.val().length - 1;
+  let days = getDevDays();
+    
   let div = document.getElementById('showData');
   div.appendChild(document.createElement('br'));
   div.append('Task Number : ' + taskNo);
@@ -170,6 +172,13 @@ function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskNam
   div.append('Task Link : ');
   div.appendChild(taskLink);
   div.appendChild(document.createElement('br'));
+  
+  // ( Developer Days / Total Tasks - TaskNo).floor 
+  div.append('Days to Complete: ');
+  let taskCalc = (days / (total - taskNo));
+  div.append(Math.floor(taskCalc));
+  div.appendChild(document.createElement('br'));
+  })
 }
 
 /*
