@@ -149,8 +149,10 @@ function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskNam
  firebase.database().ref('scheduler/').once('value').then(function (snapshot) {
   let total = snapshot.val().length - 1;
   let days = getDevDays();
-    
+  // Decides how many days should be dedicated to a task based on dev days and total tasks available.
+  let taskCalc = (days / (total - taskNo));
   let div = document.getElementById('showData');
+
   div.appendChild(document.createElement('br'));
   div.append('Task Number : ' + taskNo);
   div.appendChild(document.createElement('br'));
@@ -172,10 +174,7 @@ function createAndAppendDiv(taskNo, taskDisplayDate, taskDesc, taskLink, taskNam
   div.append('Task Link : ');
   div.appendChild(taskLink);
   div.appendChild(document.createElement('br'));
-  
-  // ( Developer Days / Total Tasks - TaskNo).floor 
   div.append('Days to Complete: ');
-  let taskCalc = (days / (total - taskNo));
   div.append(Math.floor(taskCalc));
   div.appendChild(document.createElement('br'));
   })
