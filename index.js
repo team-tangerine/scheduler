@@ -87,15 +87,8 @@ function readUserData() {
  */
 
 function getDevDays(){
-    let today = new Date();
-    let cmas = new Date(today.getFullYear(), 12, 31);
-    if (today.getMonth()==11 && today.getDate() > 25) 
-    {
-      cmas.setFullYear(cmas.getFullYear()+1); 
-    }  
-    let one_day = 1000 * 60 * 60 * 24;
-    let result = Math.ceil((cmas.getTime()-today.getTime())/(one_day));
-    return result;
+    let date = new Date();
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() - date.getDate();
 }
 
 /*
